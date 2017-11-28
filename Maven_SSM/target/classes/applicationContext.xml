@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<context:component-scan base-package="com.sys" />
+
+	<!-- 引入属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<!-- 配置阿里巴巴数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${druid.driverClassName}"></property>
+		<property name="url" value="${druid.url}"></property>
+		<property name="username" value="${druid.username}"></property>
+		<property name="password" value="${druid.password}"></property>
+		<property name="minIdle" value="${druid.minIdle}"></property>
+		<property name="maxActive" value="${druid.maxActive}"></property>
+	</bean>
+
+	<!-- 配置SqlSessionFactoryBean 为整合应用提供SqlSession对象资源 在单独使用MyBatis时，所有操作都是通过SqlSession对象展开的 
+		SqlSession是通过SqlSessionFactory获取的 SqlSessionFactory又是通过SqlSessionFactoryBuilder创建生成的 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 用于指定连接数据库的数据源（必要属性） -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 用于指定Mpper文件存放的位置，自动扫描mapper文件 -->
+		<property name="mapperLocations" value="classpath:com/sys/mapping/*.xml" />
+	</bean>
+
+	<!-- 配置MapperScannerConfigurer 根据指定属性批量扫描Mapper接口并生成实例， 在之前，每有一个xml文件就在MyBatis文件中添加该配置文件，容易遗漏 
+		通过注册该组件就会自动扫描mapper接口 并注册到对应的MapperFactoryBean对象 -->
+	<bean id="mapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.sys.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+
+
+
+
+
+</beans>
