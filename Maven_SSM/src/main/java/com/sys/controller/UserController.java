@@ -25,7 +25,7 @@ public class UserController {
 
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("½øÈë"+request.getRequestURL()+"µÄ" + request.getMethod()+"·½·¨");
+		logger.info("ï¿½ï¿½ï¿½ï¿½"+request.getRequestURL()+"ï¿½ï¿½" + request.getMethod()+"ï¿½ï¿½ï¿½ï¿½");
 		Object[] o = userService.getAllUser().stream().map((User user) -> {
 			Map<String, Object> map = new HashMap<>();
 			map.put("id", user.getId());
@@ -39,7 +39,7 @@ public class UserController {
 		}
 		request.setAttribute("result", o);
 		System.out.println("Enter TestController.dispatchTest()");
-		logger.info("ÈÕÖ¾´òÓ¡============="+request.getScheme()+request.getServerName()+ request.getServerPort() + request.getContextPath());
+		logger.info("è®¿é—®è·¯å¾„============="+request.getScheme()+request.getServerName()+ request.getServerPort() + request.getContextPath());
 		return "user/list";
 	}
 
