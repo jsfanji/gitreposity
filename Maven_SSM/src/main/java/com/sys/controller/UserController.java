@@ -23,6 +23,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 *fanji
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping("/list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
 		logger.info("����"+request.getRequestURL()+"��" + request.getMethod()+"����");
